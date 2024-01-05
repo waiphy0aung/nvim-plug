@@ -15,6 +15,7 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
 Plug 'dense-analysis/ale'
+Plug 'mhinz/vim-startify'
 " Initialize plugin system
 call plug#end()
 
@@ -96,8 +97,6 @@ let g:ale_fixers = {
   \ 'javascript': ['prettier'],
   \ 'json': ['prettier'],
   \ }
-
-autocmd BufWritePre *.js,*.json :ALEFix
 
 let g:ale_echo_msg_error_str = ' '
 let g:ale_echo_msg_format = '[ALE] %s'
