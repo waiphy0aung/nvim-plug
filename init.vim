@@ -22,6 +22,10 @@ call plug#end()
 " Set the leader key to comma
 let mapleader = ','
 
+set termguicolors
+set clipboard=unnamedplus
+set clipboard+=unnamed
+
 " Telescope mappings
 nnoremap <leader>fe :Telescope file_browser<CR>
 nnoremap <leader>ff :lua require('telescope.builtin').find_files({ file_ignore_patterns = {'node_modules','build'} })<CR>
@@ -70,6 +74,10 @@ require("nvim-autopairs").setup {}
 EOF
 
 lua require("toggleterm").setup()
+
+lua require("gitsigns").setup()
+
+nnoremap tb :Gitsigns toggle_current_line_blame<CR>
 
 let g:gitsigns_current_line_blame = 1
 
