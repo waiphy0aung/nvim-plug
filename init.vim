@@ -26,12 +26,15 @@ set termguicolors
 set clipboard=unnamedplus
 set clipboard+=unnamed
 
+nnoremap <silent>sv :vsp<CR><C-w>l
+nnoremap <silent>ss :sp<CR><C-w>j
+
 " Telescope mappings
-nnoremap <leader>fe :Telescope file_browser<CR>
-nnoremap <leader>ff :lua require('telescope.builtin').find_files({ file_ignore_patterns = {'node_modules','build'} })<CR>
-nnoremap <leader>fg :Telescope live_grep<CR>
-nnoremap <leader>fb :Telescope buffers<CR>
-nnoremap <leader>fh :Telescope help_tags<CR>
+nnoremap <silent>fe :Telescope file_browser<CR>
+nnoremap <silent>ff :lua require('telescope.builtin').find_files({ file_ignore_patterns = {'node_modules','build'}, hidden=true })<CR>
+nnoremap <silent>fg :Telescope live_grep<CR>
+nnoremap <silent>fb :Telescope buffers<CR>
+nnoremap <silent>fh :Telescope help_tags<CR>
 
 " For init.vim
 autocmd FileType javascript setlocal commentstring=//\ %s
@@ -59,10 +62,14 @@ nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " Remap keys for gotos
+" nmap <leader>gd :call CocAction('jumpDefinition', 'vsplit')<CR>
+nmap <silent> gD :call CocAction('jumpDefinition', 'tabnew')<CR>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+set signcolumn=no
 
 " Better display for messages
 " set cmdheight=2
@@ -104,6 +111,7 @@ let g:ale_fixers_explicit = 1
 let g:ale_fixers = {
   \ 'javascript': ['prettier'],
   \ 'json': ['prettier'],
+  \ 'javascriptreact': ['prettier'],
   \ }
 
 let g:ale_echo_msg_error_str = ' '
