@@ -26,6 +26,8 @@ set termguicolors
 set clipboard=unnamedplus
 set clipboard+=unnamed
 
+nnoremap <C-a> ggVG
+
 nnoremap <silent>sv :vsp<CR><C-w>l
 nnoremap <silent>ss :sp<CR><C-w>j
 
@@ -57,12 +59,26 @@ let g:coc_global_extensions = [
   \ 'coc-json', 
   \ ]
 
-" Use `[g` and `]g` to navigate diagnostics
+set shortmess+=c
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <c-space> coc#refresh()
+
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
-" Remap keys for gotos
-" nmap <leader>gd :call CocAction('jumpDefinition', 'vsplit')<CR>
 nmap <silent> gD :call CocAction('jumpDefinition', 'tabnew')<CR>
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -71,13 +87,10 @@ nmap <silent> gr <Plug>(coc-references)
 
 set signcolumn=no
 
-" Better display for messages
-" set cmdheight=2
-
-" You will have a bad experience for diagnostic messages when it's default 4000.
-" set updatetime=300
 lua << EOF
-require("nvim-autopairs").setup {}
+require("nvim-autopairs").setup {
+	map_cr = false
+	}
 EOF
 
 lua require("toggleterm").setup()
