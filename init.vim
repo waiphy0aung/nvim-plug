@@ -14,7 +14,7 @@ Plug 'windwp/nvim-autopairs'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 Plug 'mhinz/vim-startify'
 " Initialize plugin system
 call plug#end()
@@ -85,6 +85,29 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
+" Formatting selected code
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  autocmd FileType javascript,javascriptreact,json setl formatexpr=CocAction('formatSelected')
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+nmap <leader>ac  <Plug>(coc-codeaction-cursor)
+nmap <leader>as  <Plug>(coc-codeaction-source)
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
 set signcolumn=no
 
 lua << EOF
@@ -117,15 +140,4 @@ tnoremap <C-t> <C-\><C-n>:ToggleTerm<CR>
 nnoremap <Leader>te :tabnew<CR>
 nnoremap <Tab> :tabnext<CR>
 nnoremap <S-Tab> :tabprev<CR>
-nnoremap fm :ALEFix<CR>
 
-let g:ale_linters_explicit = 1
-let g:ale_fixers_explicit = 1
-let g:ale_fixers = {
-  \ 'javascript': ['prettier'],
-  \ 'json': ['prettier'],
-  \ 'javascriptreact': ['prettier'],
-  \ }
-
-let g:ale_echo_msg_error_str = ' '
-let g:ale_echo_msg_format = '[ALE] %s'
