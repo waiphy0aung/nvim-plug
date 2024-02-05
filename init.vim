@@ -30,6 +30,7 @@ set smarttab
 set cindent
 set tabstop=2
 set shiftwidth=2
+syntax off
 " always uses spaces instead of tab characters
 set expandtab
 
@@ -65,6 +66,8 @@ let g:coc_global_extensions = [
   \ 'coc-prettier', 
   \ 'coc-json', 
   \ ]
+
+autocmd FileType html setlocal commentstring=<!--\ %s\ -->
 
 set shortmess+=c
 
@@ -105,7 +108,7 @@ nmap <leader>f  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
-  autocmd FileType javascript,javascriptreact,json setl formatexpr=CocAction('formatSelected')
+  autocmd FileType javascript,javascriptreact,json,html setl formatexpr=CocAction('formatSelected')
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
