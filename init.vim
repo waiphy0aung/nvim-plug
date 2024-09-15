@@ -30,7 +30,7 @@ set smarttab
 set cindent
 set tabstop=2
 set shiftwidth=2
-syntax off
+" syntax off
 " always uses spaces instead of tab characters
 set expandtab
 
@@ -40,11 +40,20 @@ nnoremap <silent>sv :vsp<CR><C-w>l
 nnoremap <silent>ss :sp<CR><C-w>j
 
 " Telescope mappings
-nnoremap <silent>fe :Telescope file_browser<CR>
-nnoremap <silent>ff :lua require('telescope.builtin').find_files({ file_ignore_patterns = {'node_modules','build'}, hidden=true })<CR>
-nnoremap <silent>fg :Telescope live_grep<CR>
-nnoremap <silent>fb :Telescope buffers<CR>
-nnoremap <silent>fh :Telescope help_tags<CR>
+" nnoremap <silent>fe :Telescope file_browser<CR>
+" nnoremap <silent>fe :lua require('telescope').extensions.file_browser.file_browser({
+"   \ path = "%:p:h",
+"   \ cwd = vim.fn.expand('%:p:h'),
+"   \ respect_gitignore = false,
+"   \ hidden = true,
+"   \ grouded = true,
+"   \ previewer = true,
+"   \ initial_mode = "normal",
+"   \ })<CR>
+" nnoremap <silent>ff :lua require('telescope.builtin').find_files({ file_ignore_patterns = {'node_modules','build'}, hidden=true })<CR>
+" nnoremap <silent>fg :Telescope live_grep<CR>
+" nnoremap <silent>fb :Telescope buffers<CR>
+" nnoremap <silent>fh :Telescope help_tags<CR>
 
 " For init.vim
 autocmd FileType javascript setlocal commentstring=//\ %s
@@ -158,3 +167,80 @@ nnoremap <Leader>te :tabnew<CR>
 nnoremap <Tab> :tabnext<CR>
 nnoremap <S-Tab> :tabprev<CR>
 
+
+lua << EOF
+local status, telescope = pcall(require, "telescope")
+if (not status) then return end
+local actions = require('telescope.actions')
+local builtin = require("telescope.builtin")
+
+local function telescope_buffer_dir()
+  return vim.fn.expand('%:p:h')
+end
+
+local fb_actions = require "telescope".extensions.file_browser.actions
+
+telescope.setup {
+  defaults = {
+    mappings = {
+      n = {
+        ["q"] = actions.close
+      },
+    },
+  },
+  extensions = {
+    file_browser = {
+      theme = "dropdown",
+      hijack_netrw = true,
+      mappings = {
+        ["i"] = {
+          ["<C-w>"] = function() vim.cmd('normal vbd') end,
+        },
+        ["n"] = {
+          ["N"] = fb_actions.create,
+          ["h"] = fb_actions.goto_parent_dir,
+          ["/"] = function()
+            vim.cmd('startinsert')
+          end
+        },
+      },
+    },
+  },
+}
+
+telescope.load_extension("file_browser")
+
+vim.keymap.set('n', 'ff',
+  function()
+    builtin.find_files({
+      file_ignore_patterns = { "node%_modules/.*" },
+      hidden = true
+    })
+  end)
+vim.keymap.set('n', 'fg', function()
+  builtin.live_grep()
+end)
+vim.keymap.set('n', 'fb', function()
+  builtin.buffers()
+end)
+vim.keymap.set('n', 'fh', function()
+  builtin.help_tags()
+end)
+vim.keymap.set('n', ';;', function()
+  builtin.resume()
+end)
+vim.keymap.set('n', ';e', function()
+  builtin.diagnostics()
+end)
+vim.keymap.set("n", "fe", function()
+  telescope.extensions.file_browser.file_browser({
+    path = "%:p:h",
+    cwd = telescope_buffer_dir(),
+    respect_gitignore = false,
+    hidden = true,
+    grouped = true,
+    previewer = true,
+    initial_mode = "normal",
+  })
+end)
+EOF
