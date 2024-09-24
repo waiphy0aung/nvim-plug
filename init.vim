@@ -38,6 +38,7 @@ nnoremap <C-a> ggVG
 
 nnoremap <silent>sv :vsp<CR><C-w>l
 nnoremap <silent>ss :sp<CR><C-w>j
+tnoremap <Esc> <C-\><C-n>
 
 " Telescope mappings
 " nnoremap <silent>fe :Telescope file_browser<CR>
