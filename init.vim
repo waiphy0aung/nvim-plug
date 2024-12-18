@@ -1,5 +1,3 @@
-hi Normal guibg=black ctermbg=black
-
 " Specify a directory for plugins
 call plug#begin('~/.vim/plugged')
 
@@ -14,13 +12,27 @@ Plug 'windwp/nvim-autopairs'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+Plug 'slugbyte/lackluster.nvim'
+Plug 'gmr458/cold.nvim'
 " Plug 'dense-analysis/ale'
 Plug 'mhinz/vim-startify'
+Plug 'shaunsingh/nord.nvim'
+Plug 'maxmx03/solarized.nvim'
+Plug 'Mofiqul/dracula.nvim'
 " Initialize plugin system
 call plug#end()
 
 " Set the leader key to comma
 let mapleader = ','
+
+set number
+" colorscheme nord
+colorscheme cold
+" colorscheme lackluster-hack
+hi Normal guibg=none    " Set background to black and foreground (text) to white
+hi LineNr guibg=none    " Set line number background to black and foreground to white
+hi StatusLine guibg=none   " Set status line background to black and text to white
+hi StatusLineNC guibg=none  " Set inactive status line to black and text to white
 
 set termguicolors
 set clipboard=unnamedplus
