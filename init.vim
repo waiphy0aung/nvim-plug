@@ -25,6 +25,8 @@ call plug#end()
 " Set the leader key to comma
 let mapleader = ','
 
+set lazyredraw
+set ttyfast
 set number
 " colorscheme nord
 colorscheme cold
@@ -73,11 +75,13 @@ autocmd FileType javascript setlocal commentstring=//\ %s
 autocmd FileType javascriptreact setlocal commentstring={/*%s*/}
 autocmd FileType jsx setlocal commentstring={/*%s*/}
 
+
 " Command for Prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " ctrlp
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_user_command = ['find %s -type f', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 " Coc config
 let g:coc_global_extensions = [
@@ -151,11 +155,15 @@ set signcolumn=no
 
 lua << EOF
 require("nvim-autopairs").setup {
-	map_cr = false
-	}
+  disable_filetype = { "TelescopePrompt" },
+  check_ts = true,
+  map_cr = false
+}
 EOF
 
-lua require("toggleterm").setup()
+lua require("toggleterm").setup({
+  \ size = 40
+  \ })
 
 lua require("gitsigns").setup()
 
