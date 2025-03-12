@@ -1,0 +1,57 @@
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+vim.opt.backspace = '2'
+vim.opt.showcmd = true
+vim.opt.number = true
+vim.opt.laststatus = 2
+vim.opt.autowrite = true
+vim.opt.cursorline = true
+vim.opt.autoread = true
+vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.clipboard:append { 'unnamedplus' }
+
+vim.cmd([[
+    colorscheme nord
+    hi Normal guibg=none
+    hi LineNr guibg=none
+    hi StatusLine guibg=none
+    hi StatusLineNC guibg=none
+]])
+
+-- use spaces for tabs and whatnot
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.shiftround = true
+vim.opt.expandtab = true
+
+local keymap = vim.keymap
+
+keymap.set('n', '<leader>h', ':nohlsearch<CR>')
+-- Select all
+keymap.set('n', '<C-a>', 'gg<S-v>G')
+-- New tab
+keymap.set('n', 'te', ':tabedit<Return>')
+-- Split window
+keymap.set('n', 'ss', ':split<Return><C-w>w')
+keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
+-- Move window
+keymap.set('n', '<Space>', '<C-w>w')
+keymap.set('', '<C-h>', '<C-w>h')
+keymap.set('', '<C-k>', '<C-w>k')
+keymap.set('', '<C-j>', '<C-w>j')
+keymap.set('', '<C-l>', '<C-w>l')
+
+keymap.set('n', '<Tab>', ':tabnext<Return>')
+keymap.set('n', '<S-Tab>', ':tabprev<Return>')
+
+keymap.set('n', 'tb', ':Gitsigns toggle_current_line_blame<Return>')
+
+keymap.set('n', '<C-t>', '<Cmd>execute v:count . "ToggleTerm"<CR>', { silent = true })
+keymap.set('t', '<C-t>', "<Esc><Cmd>ToggleTerm<CR>", { silent = true })
+keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
+keymap.set("n", "<C-s>", "<Esc>v:lua.split_term()", { expr = true })
+
+keymap.set("n", "fm", ":lua vim.lsp.buf.format()<Return>")
+keymap.set("v", "fm", vim.lsp.buf.format, { remap = false })
+
