@@ -1,12 +1,52 @@
-require("mason").setup()
+require("mason").setup({
+  ui = {
+    border = "rounded",
+  },
+})
 
 require("mason-lspconfig").setup({
-  ensure_installed = { "ts_ls", "lua_ls", "pyright" }
+  ensure_installed = { "ts_ls", "lua_ls", "pyright", "tailwindcss", "cssls" },
+  automatic_installation = true,
 })
 
 local lspconfig = require("lspconfig")
-lspconfig.ts_ls.setup({})
-lspconfig.pyright.setup({})
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+-- Optimize LSP settings
+local servers = {
+  ts_ls = {
+    settings = {
+      typescript = {
+        inlayHints = {
+          includeInlayParameterNameHints = 'literal',
+          includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayVariableTypeHints = false,
+        },
+      },
+    },
+  },
+  lua_ls = {
+    settings = {
+      Lua = {
+        runtime = { version = 'LuaJIT' },
+        diagnostics = { globals = { 'vim' } },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
+        },
+        telemetry = { enable = false },
+      },
+    },
+  },
+  pyright = {},
+}
+
+for server, config in pairs(servers) do
+  lspconfig[server].setup(vim.tbl_deep_extend("force", {
+    capabilities = capabilities,
+  }, config))
+end
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),

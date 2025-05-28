@@ -21,6 +21,12 @@ local function formatForTailwindCSS(entry, vim_item)
 end
 
 cmp.setup({
+  performance = {
+    debounce = 60,
+    throttle = 30,
+    fetching_timeout = 500,
+    max_view_entries = 30,
+  },
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body)

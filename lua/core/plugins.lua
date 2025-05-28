@@ -55,6 +55,7 @@ return require('packer').startup(function(use)
     'hrsh7th/cmp-nvim-lsp',            -- nvim-cmp source for neovim's built-in LSP
     'hrsh7th/nvim-cmp'
   })
+  use 'L3MON4D3/LuaSnip'
   
 
   -- My plugins here

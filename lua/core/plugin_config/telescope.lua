@@ -11,12 +11,52 @@ local fb_actions = require "telescope".extensions.file_browser.actions
 
 telescope.setup {
   defaults = {
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+      "--hidden",
+    },
+    prompt_prefix = "🔍 ",
+    selection_caret = "❯ ",
+    file_ignore_patterns = {
+      "node_modules/.*",
+      "%.git/.*",
+      "dist/.*",
+      "build/.*",
+      "%.png",
+      "%.jpg",
+      "%.jpeg",
+    },
+    layout_config = {
+      horizontal = {
+        prompt_position = "top",
+        preview_width = 0.55,
+        results_width = 0.8,
+      },
+      width = 0.87,
+      height = 0.80,
+      preview_cutoff = 120,
+    },
     mappings = {
       n = {
-        ["q"] = actions.close
+        ["q"] = actions.close,
+        ["<C-c>"] = actions.close,
+      },
+      i = {
+        ["<C-c>"] = actions.close,
       },
     },
   },
+  -- pickers = {
+  --   find_files = {
+  --     find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+  --   },
+  -- },
   extensions = {
     file_browser = {
       theme = "dropdown",
@@ -42,7 +82,15 @@ telescope.load_extension("file_browser")
 vim.keymap.set('n', 'ff',
   function()
     builtin.find_files({
-      file_ignore_patterns = { "node%_modules/.*" },
+      file_ignore_patterns = {
+        "node%_modules/.*",
+        "%.git/.*",
+        "dist/.*",
+        "build/.*",
+        "%.png",
+        "%.jpg",
+        "%.jpeg",
+      },
       -- no_ignore = false,
       hidden = true
     })

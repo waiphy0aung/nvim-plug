@@ -1,29 +1,50 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- Performance settings
+vim.opt.updatetime = 250
+vim.opt.timeoutlen = 300
+vim.opt.synmaxcol = 300 -- Limit syntax highlighting for long lines
+
+-- Editor settings
 vim.opt.backspace = '2'
 vim.opt.showcmd = true
 vim.opt.number = true
+-- vim.opt.relativenumber = true -- More efficient for navigation
 vim.opt.laststatus = 2
 vim.opt.autowrite = true
 vim.opt.cursorline = true
 vim.opt.autoread = true
-vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/dist/*', '*/build/*' }
 vim.opt.clipboard:append { 'unnamedplus' }
 
-vim.cmd([[
-    colorscheme nord
-    hi Normal guibg=none
-    hi LineNr guibg=none
-    hi StatusLine guibg=none
-    hi StatusLineNC guibg=none
-]])
-
--- use spaces for tabs and whatnot
+-- Indentation
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.shiftround = true
 vim.opt.expandtab = true
+vim.opt.smartindent = true
+
+-- Search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.hlsearch = true
+vim.opt.incsearch = true
+
+-- Performance
+vim.opt.lazyredraw = true
+vim.opt.regexpengine = 1
+
+-- Set colorscheme in autocmd to avoid loading issues
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.cmd.colorscheme("nord")
+    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+    vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
+    vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
+    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none" })
+  end,
+})
 
 local keymap = vim.keymap
 
