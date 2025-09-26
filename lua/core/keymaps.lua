@@ -56,7 +56,8 @@ keymap.set('n', 'te', ':tabedit<Return>')
 -- Split window
 keymap.set('n', 'ss', ':split<Return><C-w>w')
 keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
--- Window navigation: use <C-h/j/k/l> and tabs instead of mapping <Space>
+-- Move window
+keymap.set('n', '<Space>', '<C-w>w')
 keymap.set('', '<C-h>', '<C-w>h')
 keymap.set('', '<C-k>', '<C-w>k')
 keymap.set('', '<C-j>', '<C-w>j')
@@ -70,6 +71,8 @@ keymap.set('n', 'tb', ':Gitsigns toggle_current_line_blame<Return>')
 keymap.set('n', '<C-t>', '<Cmd>execute v:count . "ToggleTerm"<CR>', { silent = true })
 keymap.set('t', '<C-t>', "<Esc><Cmd>ToggleTerm<CR>", { silent = true })
 keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
+keymap.set("n", "<C-s>", "<Esc>v:lua.split_term()", { expr = true })
 
 keymap.set("n", "fm", ":lua vim.lsp.buf.format()<Return>")
 keymap.set("v", "fm", vim.lsp.buf.format, { remap = false })
+
