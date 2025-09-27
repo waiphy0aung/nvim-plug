@@ -9,8 +9,26 @@ require("mason-lspconfig").setup({
   automatic_installation = true,
 })
 
-local lspconfig = require("lspconfig")
+local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = "●",
+    spacing = 2,
+    source = "if_many",
+  },
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  -- float = {
+  --   border = "rounded",
+  --   source = "if_many",
+  --   focusable = false,
+  --   style = "minimal",
+  -- }
+})
 
 -- Optimize LSP settings
 local servers = {
