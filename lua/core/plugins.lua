@@ -1,8 +1,8 @@
 local ensure_packer = function()
   local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
   if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
     vim.cmd [[packadd packer.nvim]]
     return true
   end
@@ -16,7 +16,10 @@ return require('packer').startup(function(use)
 
   -- themes
   use 'ellisonleao/gruvbox.nvim'
+  use 'jpwol/thorn.nvim'
+  use 'maxmx03/solarized.nvim'
   use 'shaunsingh/nord.nvim'
+  use "yorumicolors/yorumi.nvim"
   -- use 'nvim-tree/nvim-tree.lua'
   use 'nvim-tree/nvim-web-devicons'
   use 'nvim-lualine/lualine.nvim'
@@ -39,7 +42,7 @@ return require('packer').startup(function(use)
   use {
     'nvim-telescope/telescope.nvim',
     tag = '0.1.8',
-    requires = { {'nvim-lua/plenary.nvim'} }
+    requires = { { 'nvim-lua/plenary.nvim' } }
   }
   use 'nvim-telescope/telescope-file-browser.nvim'
 
@@ -51,12 +54,12 @@ return require('packer').startup(function(use)
 
   use({
     'onsails/lspkind-nvim',
-    'hrsh7th/cmp-buffer',              -- nvim-cmp source for buffer words
-    'hrsh7th/cmp-nvim-lsp',            -- nvim-cmp source for neovim's built-in LSP
+    'hrsh7th/cmp-buffer',   -- nvim-cmp source for buffer words
+    'hrsh7th/cmp-nvim-lsp', -- nvim-cmp source for neovim's built-in LSP
     'hrsh7th/nvim-cmp'
   })
   use 'L3MON4D3/LuaSnip'
-  
+
 
   -- My plugins here
   -- use 'foo1/bar1.nvim'

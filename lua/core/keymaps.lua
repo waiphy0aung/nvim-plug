@@ -9,7 +9,7 @@ vim.opt.synmaxcol = 300 -- Limit syntax highlighting for long lines
 -- Editor settings
 vim.opt.backspace = '2'
 vim.opt.showcmd = true
-vim.opt.number = true
+-- vim.opt.number = true
 -- vim.opt.relativenumber = true -- More efficient for navigation
 vim.opt.laststatus = 2
 vim.opt.autowrite = true
@@ -31,20 +31,27 @@ vim.opt.smartcase = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
--- Performance
 vim.opt.lazyredraw = true
 vim.opt.regexpengine = 1
 
--- Set colorscheme in autocmd to avoid loading issues
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    vim.cmd.colorscheme("nord")
-    vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-    vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
-    vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
-    vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none" })
-  end,
-})
+-- Initialize the colorscheme before applying it so thorn has a config table
+local thorn_ok, thorn = pcall(require, "thorn")
+if thorn_ok then
+  thorn.setup()
+  vim.cmd.colorscheme("thorn-dark-warm")
+else
+  vim.notify("thorn.nvim not available; using default colorscheme", vim.log.levels.WARN)
+  vim.cmd.colorscheme("default")
+end
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   callback = function()
+-- vim.cmd.colorscheme("nord")
+-- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+-- vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
+-- vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
+-- vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none" })
+--   end,
+-- })
 
 local keymap = vim.keymap
 
@@ -75,4 +82,3 @@ keymap.set("n", "<C-s>", "<Esc>v:lua.split_term()", { expr = true })
 
 keymap.set("n", "fm", ":lua vim.lsp.buf.format()<Return>")
 keymap.set("v", "fm", vim.lsp.buf.format, { remap = false })
-

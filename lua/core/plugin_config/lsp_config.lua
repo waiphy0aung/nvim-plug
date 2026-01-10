@@ -9,8 +9,11 @@ require("mason-lspconfig").setup({
   automatic_installation = true,
 })
 
-local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+vim.lsp.config('*', {
+  capabilities = capabilities,
+})
 
 vim.diagnostic.config({
   virtual_text = {
@@ -61,9 +64,8 @@ local servers = {
 }
 
 for server, config in pairs(servers) do
-  lspconfig[server].setup(vim.tbl_deep_extend("force", {
-    capabilities = capabilities,
-  }, config))
+  vim.lsp.config(server, config)
+  vim.lsp.enable(server)
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {
