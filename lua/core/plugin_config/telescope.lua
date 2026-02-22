@@ -51,6 +51,10 @@ telescope.setup {
         ["<C-c>"] = actions.close,
       },
     },
+    -- Avoid crashing when treesitter parser helpers are missing.
+    preview = {
+      treesitter = false,
+    },
   },
   -- pickers = {
   --   find_files = {
