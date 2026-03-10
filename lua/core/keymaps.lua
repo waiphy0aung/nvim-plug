@@ -1,84 +1,25 @@
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
--- Performance settings
-vim.opt.updatetime = 250
-vim.opt.timeoutlen = 300
-vim.opt.synmaxcol = 300 -- Limit syntax highlighting for long lines
-
--- Editor settings
-vim.opt.backspace = '2'
-vim.opt.showcmd = true
--- vim.opt.number = true
--- vim.opt.relativenumber = true -- More efficient for navigation
-vim.opt.laststatus = 2
-vim.opt.autowrite = true
-vim.opt.cursorline = true
-vim.opt.autoread = true
-vim.opt.wildignore:append { '*/node_modules/*', '*/.git/*', '*/dist/*', '*/build/*' }
-vim.opt.clipboard:append { 'unnamedplus' }
-
--- Indentation
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.shiftround = true
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-
--- Search
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.hlsearch = true
-vim.opt.incsearch = true
-
-vim.opt.lazyredraw = true
-vim.opt.regexpengine = 1
-
--- Initialize the colorscheme before applying it so thorn has a config table
-local thorn_ok, thorn = pcall(require, "thorn")
-if thorn_ok then
-  thorn.setup()
-  vim.cmd.colorscheme("thorn-dark-warm")
-else
-  vim.notify("thorn.nvim not available; using default colorscheme", vim.log.levels.WARN)
-  vim.cmd.colorscheme("default")
-end
--- vim.api.nvim_create_autocmd("VimEnter", {
---   callback = function()
--- vim.cmd.colorscheme("nord")
--- vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
--- vim.api.nvim_set_hl(0, "LineNr", { bg = "none" })
--- vim.api.nvim_set_hl(0, "StatusLine", { bg = "none" })
--- vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "none" })
---   end,
--- })
-
 local keymap = vim.keymap
 
-keymap.set('n', '<leader>h', ':nohlsearch<CR>')
+-- Clear search highlight
+keymap.set('n', '<leader>h', ':nohlsearch<CR>', { desc = "Clear search highlight" })
+
 -- Select all
 keymap.set('n', '<C-a>', 'gg<S-v>G')
--- New tab
-keymap.set('n', 'te', ':tabedit<Return>')
--- Split window
-keymap.set('n', 'ss', ':split<Return><C-w>w')
-keymap.set('n', 'sv', ':vsplit<Return><C-w>w')
--- Move window
-keymap.set('n', '<Space>', '<C-w>w')
-keymap.set('', '<C-h>', '<C-w>h')
-keymap.set('', '<C-k>', '<C-w>k')
-keymap.set('', '<C-j>', '<C-w>j')
-keymap.set('', '<C-l>', '<C-w>l')
 
+-- Tabs
+keymap.set('n', 'te', ':tabedit<Return>')
 keymap.set('n', '<Tab>', ':tabnext<Return>')
 keymap.set('n', '<S-Tab>', ':tabprev<Return>')
 
-keymap.set('n', 'tb', ':Gitsigns toggle_current_line_blame<Return>')
+-- Split window
+keymap.set('n', 'ss', ':split<Return><C-w>w', { desc = "Split horizontal" })
+keymap.set('n', 'sv', ':vsplit<Return><C-w>w', { desc = "Split vertical" })
 
-keymap.set('n', '<C-t>', '<Cmd>execute v:count . "ToggleTerm"<CR>', { silent = true })
-keymap.set('t', '<C-t>', "<Esc><Cmd>ToggleTerm<CR>", { silent = true })
-keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
-keymap.set("n", "<C-s>", "<Esc>v:lua.split_term()", { expr = true })
+-- Window navigation
+keymap.set('', '<C-h>', '<C-w>h')
+keymap.set('', '<C-j>', '<C-w>j')
+keymap.set('', '<C-k>', '<C-w>k')
+keymap.set('', '<C-l>', '<C-w>l')
 
-keymap.set("n", "fm", ":lua vim.lsp.buf.format()<Return>")
-keymap.set("v", "fm", vim.lsp.buf.format, { remap = false })
+-- Git blame toggle
+keymap.set('n', 'tb', ':Gitsigns toggle_current_line_blame<Return>', { desc = "Toggle git blame" })
