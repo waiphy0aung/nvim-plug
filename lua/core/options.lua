@@ -12,7 +12,7 @@ vim.g.maplocalleader = ' '
 vim.opt.updatetime = 250
 vim.opt.timeoutlen = 300
 vim.opt.synmaxcol = 300
-vim.opt.lazyredraw = true
+
 vim.opt.regexpengine = 1
 
 -- Editor
